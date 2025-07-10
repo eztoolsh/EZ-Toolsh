@@ -358,6 +358,18 @@
             
             nav ul {
                 display: none;
+                position: absolute;
+                top: 70px;
+                left: 0;
+                right: 0;
+                background-color: var(--white);
+                flex-direction: column;
+                padding: 20px;
+                box-shadow: var(--shadow);
+            }
+            
+            nav ul.show {
+                display: flex;
             }
             
             .mobile-menu-btn {
@@ -421,6 +433,49 @@
                 font-size: 1.5rem;
             }
         }
+
+        /* Search results styling */
+        .search-results {
+            display: none;
+            background-color: var(--white);
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            max-width: 800px;
+            margin: 20px auto;
+            padding: 20px;
+        }
+
+        .search-results.show {
+            display: block;
+        }
+
+        .search-results h3 {
+            margin-bottom: 15px;
+            color: var(--primary-blue);
+        }
+
+        .search-results ul {
+            list-style: none;
+        }
+
+        .search-results li {
+            padding: 10px 0;
+            border-bottom: 1px solid #eee;
+        }
+
+        .search-results li:last-child {
+            border-bottom: none;
+        }
+
+        .search-results a {
+            color: var(--text-dark);
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .search-results a:hover {
+            color: var(--primary-blue);
+        }
     </style>
 </head>
 <body>
@@ -432,10 +487,10 @@
                 <i class="fas fa-bars"></i>
             </button>
             <nav>
-                <ul>
-                    <li><a href="#">Home</a></li>
-                    <li><a href="#">Tools</a></li>
-                    <li><a href="#">Contact</a></li>
+                <ul id="navMenu">
+                    <li><a href="#home">Home</a></li>
+                    <li><a href="#tools">Tools</a></li>
+                    <li><a href="#contact">Contact</a></li>
                     <li><a href="mailto:eztoolsh@gmail.com" class="contact-link">eztoolsh@gmail.com</a></li>
                 </ul>
             </nav>
@@ -443,11 +498,11 @@
     </header>
 
     <!-- Hero Section -->
-    <section class="hero">
+    <section class="hero" id="home">
         <div class="container">
             <h1>Your Daily Tools, All in One Place</h1>
             <p>Convert, calculate, compress, and simplify your everyday tasks — fast and free.</p>
-            <a href="#" class="cta-button">Explore Tools</a>
+            <a href="#tools" class="cta-button">Explore Tools</a>
             
             <div class="tool-icons">
                 <div class="tool-icon">
@@ -473,14 +528,22 @@
     <section class="search-section">
         <div class="search-container">
             <div class="search-bar">
-                <input type="text" placeholder="Search a tool...">
-                <button type="submit"><i class="fas fa-search"></i></button>
+                <input type="text" id="searchInput" placeholder="Search a tool...">
+                <button type="button" id="searchButton"><i class="fas fa-search"></i></button>
             </div>
         </div>
     </section>
 
+    <!-- Search Results -->
+    <div class="search-results" id="searchResults">
+        <h3>Search Results</h3>
+        <ul id="resultsList">
+            <!-- Results will be populated here by JavaScript -->
+        </ul>
+    </div>
+
     <!-- Image Tools Section -->
-    <section class="tools-section">
+    <section class="tools-section" id="tools">
         <div class="container">
             <div class="section-header">
                 <h2>🖼 Image Tools</h2>
@@ -488,7 +551,7 @@
             </div>
             
             <div class="tools-grid">
-                <div class="tool-card">
+                <div class="tool-card" data-tool-name="Image Converter" data-tool-category="Image Tools">
                     <div class="tool-icon-small">
                         <i class="fas fa-exchange-alt"></i>
                     </div>
@@ -497,7 +560,7 @@
                     <a href="#" class="tool-button">Use Tool</a>
                 </div>
                 
-                <div class="tool-card">
+                <div class="tool-card" data-tool-name="Image Compressor" data-tool-category="Image Tools">
                     <div class="tool-icon-small">
                         <i class="fas fa-compress-alt"></i>
                     </div>
@@ -506,7 +569,7 @@
                     <a href="#" class="tool-button">Use Tool</a>
                 </div>
                 
-                <div class="tool-card">
+                <div class="tool-card" data-tool-name="Image Resizer" data-tool-category="Image Tools">
                     <div class="tool-icon-small">
                         <i class="fas fa-expand-alt"></i>
                     </div>
@@ -515,7 +578,7 @@
                     <a href="#" class="tool-button">Use Tool</a>
                 </div>
                 
-                <div class="tool-card">
+                <div class="tool-card" data-tool-name="Image Cropper" data-tool-category="Image Tools">
                     <div class="tool-icon-small">
                         <i class="fas fa-crop-alt"></i>
                     </div>
@@ -524,7 +587,7 @@
                     <a href="#" class="tool-button">Use Tool</a>
                 </div>
                 
-                <div class="tool-card">
+                <div class="tool-card" data-tool-name="Image to Text (OCR)" data-tool-category="Image Tools">
                     <div class="tool-icon-small">
                         <i class="fas fa-font"></i>
                     </div>
@@ -533,7 +596,7 @@
                     <a href="#" class="tool-button">Use Tool</a>
                 </div>
                 
-                <div class="tool-card">
+                <div class="tool-card" data-tool-name="Image Rotator/Flipper" data-tool-category="Image Tools">
                     <div class="tool-icon-small">
                         <i class="fas fa-sync-alt"></i>
                     </div>
@@ -554,7 +617,7 @@
             </div>
             
             <div class="tools-grid">
-                <div class="tool-card">
+                <div class="tool-card" data-tool-name="PDF to Word / Word to PDF" data-tool-category="Document Tools">
                     <div class="tool-icon-small">
                         <i class="fas fa-file-word"></i>
                     </div>
@@ -563,7 +626,7 @@
                     <a href="#" class="tool-button">Use Tool</a>
                 </div>
                 
-                <div class="tool-card">
+                <div class="tool-card" data-tool-name="PDF Compressor" data-tool-category="Document Tools">
                     <div class="tool-icon-small">
                         <i class="fas fa-file-archive"></i>
                     </div>
@@ -572,7 +635,7 @@
                     <a href="#" class="tool-button">Use Tool</a>
                 </div>
                 
-                <div class="tool-card">
+                <div class="tool-card" data-tool-name="PDF Merger & Splitter" data-tool-category="Document Tools">
                     <div class="tool-icon-small">
                         <i class="fas fa-cut"></i>
                     </div>
@@ -581,7 +644,7 @@
                     <a href="#" class="tool-button">Use Tool</a>
                 </div>
                 
-                <div class="tool-card">
+                <div class="tool-card" data-tool-name="Document Converter" data-tool-category="Document Tools">
                     <div class="tool-icon-small">
                         <i class="fas fa-exchange-alt"></i>
                     </div>
@@ -590,7 +653,7 @@
                     <a href="#" class="tool-button">Use Tool</a>
                 </div>
                 
-                <div class="tool-card">
+                <div class="tool-card" data-tool-name="PDF Lock/Unlock" data-tool-category="Document Tools">
                     <div class="tool-icon-small">
                         <i class="fas fa-lock"></i>
                     </div>
@@ -599,7 +662,7 @@
                     <a href="#" class="tool-button">Use Tool</a>
                 </div>
                 
-                <div class="tool-card">
+                <div class="tool-card" data-tool-name="eSign PDF" data-tool-category="Document Tools">
                     <div class="tool-icon-small">
                         <i class="fas fa-signature"></i>
                     </div>
@@ -620,7 +683,7 @@
             </div>
             
             <div class="tools-grid">
-                <div class="tool-card">
+                <div class="tool-card" data-tool-name="Scientific Calculator" data-tool-category="Calculator Tools">
                     <div class="tool-icon-small">
                         <i class="fas fa-square-root-alt"></i>
                     </div>
@@ -629,7 +692,7 @@
                     <a href="#" class="tool-button">Use Tool</a>
                 </div>
                 
-                <div class="tool-card">
+                <div class="tool-card" data-tool-name="Age Calculator" data-tool-category="Calculator Tools">
                     <div class="tool-icon-small">
                         <i class="fas fa-birthday-cake"></i>
                     </div>
@@ -638,7 +701,7 @@
                     <a href="#" class="tool-button">Use Tool</a>
                 </div>
                 
-                <div class="tool-card">
+                <div class="tool-card" data-tool-name="BMI Calculator" data-tool-category="Calculator Tools">
                     <div class="tool-icon-small">
                         <i class="fas fa-weight"></i>
                     </div>
@@ -647,7 +710,7 @@
                     <a href="#" class="tool-button">Use Tool</a>
                 </div>
                 
-                <div class="tool-card">
+                <div class="tool-card" data-tool-name="Loan EMI Calculator" data-tool-category="Calculator Tools">
                     <div class="tool-icon-small">
                         <i class="fas fa-home"></i>
                     </div>
@@ -656,7 +719,7 @@
                     <a href="#" class="tool-button">Use Tool</a>
                 </div>
                 
-                <div class="tool-card">
+                <div class="tool-card" data-tool-name="GST Calculator" data-tool-category="Calculator Tools">
                     <div class="tool-icon-small">
                         <i class="fas fa-receipt"></i>
                     </div>
@@ -665,7 +728,7 @@
                     <a href="#" class="tool-button">Use Tool</a>
                 </div>
                 
-                <div class="tool-card">
+                <div class="tool-card" data-tool-name="Currency Converter" data-tool-category="Calculator Tools">
                     <div class="tool-icon-small">
                         <i class="fas fa-money-bill-wave"></i>
                     </div>
@@ -686,7 +749,7 @@
             </div>
             
             <div class="tools-grid">
-                <div class="tool-card">
+                <div class="tool-card" data-tool-name="Text Case Converter" data-tool-category="Text Tools">
                     <div class="tool-icon-small">
                         <i class="fas fa-text-height"></i>
                     </div>
@@ -695,7 +758,7 @@
                     <a href="#" class="tool-button">Use Tool</a>
                 </div>
                 
-                <div class="tool-card">
+                <div class="tool-card" data-tool-name="Word & Character Counter" data-tool-category="Text Tools">
                     <div class="tool-icon-small">
                         <i class="fas fa-sort-amount-down"></i>
                     </div>
@@ -704,7 +767,7 @@
                     <a href="#" class="tool-button">Use Tool</a>
                 </div>
                 
-                <div class="tool-card">
+                <div class="tool-card" data-tool-name="Remove Duplicate Lines" data-tool-category="Text Tools">
                     <div class="tool-icon-small">
                         <i class="fas fa-filter"></i>
                     </div>
@@ -713,7 +776,7 @@
                     <a href="#" class="tool-button">Use Tool</a>
                 </div>
                 
-                <div class="tool-card">
+                <div class="tool-card" data-tool-name="Text Sorter" data-tool-category="Text Tools">
                     <div class="tool-icon-small">
                         <i class="fas fa-sort-alpha-down"></i>
                     </div>
@@ -722,7 +785,7 @@
                     <a href="#" class="tool-button">Use Tool</a>
                 </div>
                 
-                <div class="tool-card">
+                <div class="tool-card" data-tool-name="Text Reverser" data-tool-category="Text Tools">
                     <div class="tool-icon-small">
                         <i class="fas fa-retweet"></i>
                     </div>
@@ -731,7 +794,7 @@
                     <a href="#" class="tool-button">Use Tool</a>
                 </div>
                 
-                <div class="tool-card">
+                <div class="tool-card" data-tool-name="Text Encryptor/Decryptor" data-tool-category="Text Tools">
                     <div class="tool-icon-small">
                         <i class="fas fa-lock"></i>
                     </div>
@@ -752,7 +815,7 @@
             </div>
             
             <div class="tools-grid">
-                <div class="tool-card">
+                <div class="tool-card" data-tool-name="HTML/CSS/JS Minifier" data-tool-category="Web/Developer Tools">
                     <div class="tool-icon-small">
                         <i class="fas fa-file-code"></i>
                     </div>
@@ -761,7 +824,7 @@
                     <a href="#" class="tool-button">Use Tool</a>
                 </div>
                 
-                <div class="tool-card">
+                <div class="tool-card" data-tool-name="JSON Formatter & Validator" data-tool-category="Web/Developer Tools">
                     <div class="tool-icon-small">
                         <i class="fas fa-check-square"></i>
                     </div>
@@ -770,7 +833,7 @@
                     <a href="#" class="tool-button">Use Tool</a>
                 </div>
                 
-                <div class="tool-card">
+                <div class="tool-card" data-tool-name="Base64 Encoder/Decoder" data-tool-category="Web/Developer Tools">
                     <div class="tool-icon-small">
                         <i class="fas fa-key"></i>
                     </div>
@@ -779,7 +842,7 @@
                     <a href="#" class="tool-button">Use Tool</a>
                 </div>
                 
-                <div class="tool-card">
+                <div class="tool-card" data-tool-name="URL Encoder/Decoder" data-tool-category="Web/Developer Tools">
                     <div class="tool-icon-small">
                         <i class="fas fa-link"></i>
                     </div>
@@ -788,7 +851,7 @@
                     <a href="#" class="tool-button">Use Tool</a>
                 </div>
                 
-                <div class="tool-card">
+                <div class="tool-card" data-tool-name="Color Picker & Converter" data-tool-category="Web/Developer Tools">
                     <div class="tool-icon-small">
                         <i class="fas fa-palette"></i>
                     </div>
@@ -797,7 +860,7 @@
                     <a href="#" class="tool-button">Use Tool</a>
                 </div>
                 
-                <div class="tool-card">
+                <div class="tool-card" data-tool-name="Regex Tester" data-tool-category="Web/Developer Tools">
                     <div class="tool-icon-small">
                         <i class="fas fa-terminal"></i>
                     </div>
@@ -805,6 +868,22 @@
                     <p>Test and debug regular expressions in real-time</p>
                     <a href="#" class="tool-button">Use Tool</a>
                 </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section class="tools-section" style="background-color: #f1f5f9;" id="contact">
+        <div class="container">
+            <div class="section-header">
+                <h2>📧 Contact Us</h2>
+                <p>Have questions or feedback? We'd love to hear from you</p>
+            </div>
+            
+            <div style="max-width: 600px; margin: 0 auto; text-align: center;">
+                <p style="margin-bottom: 30px;">For any inquiries or support, please email us at:</p>
+                <a href="mailto:eztoolsh@gmail.com" style="font-size: 1.2rem; color: var(--primary-blue); text-decoration: none; font-weight: 600;">eztoolsh@gmail.com</a>
+                <p style="margin-top: 30px;">We typically respond within 24 hours.</p>
             </div>
         </div>
     </section>
@@ -824,9 +903,9 @@
                 <div class="footer-links">
                     <h3>Quick Links</h3>
                     <ul>
-                        <li><a href="#">Home</a></li>
-                        <li><a href="#">All Tools</a></li>
-                        <li><a href="#">Contact</a></li>
+                        <li><a href="#home">Home</a></li>
+                        <li><a href="#tools">All Tools</a></li>
+                        <li><a href="#contact">Contact</a></li>
                     </ul>
                 </div>
                 
@@ -848,25 +927,115 @@
     <script>
         // Mobile menu toggle functionality
         document.querySelector('.mobile-menu-btn').addEventListener('click', function() {
-            const nav = document.querySelector('nav ul');
-            nav.style.display = nav.style.display === 'flex' ? 'none' : 'flex';
+            document.getElementById('navMenu').classList.toggle('show');
         });
         
-        // Responsive adjustment for mobile menu
-        window.addEventListener('resize', function() {
-            if (window.innerWidth > 768) {
-                document.querySelector('nav ul').style.display = 'flex';
+        // Close mobile menu when clicking on a link
+        document.querySelectorAll('#navMenu a').forEach(link => {
+            link.addEventListener('click', function() {
+                if (window.innerWidth <= 768) {
+                    document.getElementById('navMenu').classList.remove('show');
+                }
+            });
+        });
+        
+        // Smooth scrolling for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                
+                const targetId = this.getAttribute('href');
+                if (targetId === '#') return;
+                
+                const targetElement = document.querySelector(targetId);
+                if (targetElement) {
+                    window.scrollTo({
+                        top: targetElement.offsetTop - 70,
+                        behavior: 'smooth'
+                    });
+                }
+            });
+        });
+        
+        // Search functionality
+        const searchInput = document.getElementById('searchInput');
+        const searchButton = document.getElementById('searchButton');
+        const searchResults = document.getElementById('searchResults');
+        const resultsList = document.getElementById('resultsList');
+        
+        // Array of all tools for search
+        const allTools = Array.from(document.querySelectorAll('.tool-card')).map(card => {
+            return {
+                name: card.dataset.toolName,
+                category: card.dataset.toolCategory,
+                element: card
+            };
+        });
+        
+        function performSearch() {
+            const searchTerm = searchInput.value.trim().toLowerCase();
+            
+            if (searchTerm === '') {
+                searchResults.classList.remove('show');
+                return;
+            }
+            
+            // Filter tools that match the search term
+            const matchedTools = allTools.filter(tool => 
+                tool.name.toLowerCase().includes(searchTerm) || 
+                tool.category.toLowerCase().includes(searchTerm)
+            );
+            
+            // Display results
+            if (matchedTools.length > 0) {
+                resultsList.innerHTML = '';
+                
+                matchedTools.forEach(tool => {
+                    const li = document.createElement('li');
+                    const a = document.createElement('a');
+                    a.href = '#';
+                    a.textContent = `${tool.name} (${tool.category})`;
+                    
+                    a.addEventListener('click', (e) => {
+                        e.preventDefault();
+                        // Scroll to the tool
+                        tool.element.scrollIntoView({ behavior: 'smooth' });
+                        // Highlight the tool
+                        tool.element.style.animation = 'highlight 1.5s';
+                        setTimeout(() => {
+                            tool.element.style.animation = '';
+                        }, 1500);
+                    });
+                    
+                    li.appendChild(a);
+                    resultsList.appendChild(li);
+                });
+                
+                searchResults.classList.add('show');
             } else {
-                document.querySelector('nav ul').style.display = 'none';
+                resultsList.innerHTML = '<li>No tools found matching your search.</li>';
+                searchResults.classList.add('show');
+            }
+        }
+        
+        // Event listeners for search
+        searchButton.addEventListener('click', performSearch);
+        searchInput.addEventListener('keyup', function(e) {
+            if (e.key === 'Enter') {
+                performSearch();
             }
         });
         
-        // Search functionality would be implemented here
-        document.querySelector('.search-bar button').addEventListener('click', function() {
-            const searchTerm = document.querySelector('.search-bar input').value;
-            // Implement search functionality
-            console.log('Searching for:', searchTerm);
-        });
+        // Highlight animation
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes highlight {
+                0% { box-shadow: 0 0 0 0 rgba(37, 99, 235, 0.7); }
+                70% { box-shadow: 0 0 0 10px rgba(37, 99, 235, 0); }
+                100% { box-shadow: 0 0 0 0 rgba(37, 99, 235, 0); }
+            }
+        `;
+        document.head.appendChild(style);
     </script>
 </body>
 </html>
