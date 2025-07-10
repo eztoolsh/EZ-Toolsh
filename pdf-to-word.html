@@ -1,4 +1,4 @@
-  <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
@@ -13,6 +13,7 @@
     <button onclick="convertPDF()">Convert to Word</button>
     <div id="downloadLink"></div>
   </div>
+
   <script src="script.js"></script>
 </body>
 </html>
@@ -30,6 +31,7 @@ body {
 
 h1 {
   color: #007BFF;
+  font-size: 28px;
 }
 
 input[type="file"] {
@@ -58,6 +60,15 @@ button:hover {
   .container {
     padding: 30px 10px;
   }
+
+  h1 {
+    font-size: 24px;
+  }
+
+  button {
+    padding: 10px 20px;
+    font-size: 14px;
+  }
 }
 function convertPDF() {
   const fileInput = document.getElementById('pdfFile');
@@ -70,12 +81,17 @@ function convertPDF() {
   const formData = new FormData();
   formData.append('file', file);
 
-  // Example API call to CloudConvert or your backend endpoint
-  fetch('https://api.yourserver.com/pdf-to-word', {  // replace with your API
+  // Replace this URL with your working API endpoint or integration server
+  fetch('https://api.yourserver.com/pdf-to-word', {
     method: 'POST',
     body: formData
   })
-  .then(response => response.blob())
+  .then(response => {
+    if (!response.ok) {
+      throw new Error('Conversion failed!');
+    }
+    return response.blob();
+  })
   .then(blob => {
     const downloadUrl = URL.createObjectURL(blob);
     const link = document.createElement('a');
