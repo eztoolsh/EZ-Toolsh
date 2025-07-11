@@ -71,7 +71,7 @@
 
     try {
       // Upload the PDF file
-      const uploadResponse = await fetch("https://v2.convertapi.com/upload?Secret=your_api_key_here", {
+      const uploadResponse = await fetch("https://v2.convertapi.com/upload?Secret=295d890a-08e1-4725-8a23-8d9a1d218afd", {
         method: "POST",
         body: formData
       });
@@ -84,7 +84,7 @@
       }
 
       // Now convert the uploaded file to Word using POST with JSON body
-      const convertResponse = await fetch("https://v2.convertapi.com/convert/pdf/to/docx?Secret=your_api_key_here", {
+      const convertResponse = await fetch("https://v2.convertapi.com/convert/pdf/to/docx?Secret=295d890a-08e1-4725-8a23-8d9a1d218afd", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
