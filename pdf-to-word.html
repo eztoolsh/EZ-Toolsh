@@ -70,27 +70,40 @@
     formData.append("File", file);
 
     try {
-      const response = await fetch("https://v2.convertapi.com/upload?Secret=your_api_key_here", {
+      // Upload the PDF file
+      const uploadResponse = await fetch("https://v2.convertapi.com/upload?Secret=your_api_key_here", {
         method: "POST",
         body: formData
       });
 
-      const uploadResult = await response.json();
+      const uploadResult = await uploadResponse.json();
 
-      if (uploadResult.FileId) {
-        const convertResponse = await fetch(`https://v2.convertapi.com/convert/pdf/to/docx?Secret=your_api_key_here&FileId=${uploadResult.FileId}`);
-
-        const convertResult = await convertResponse.json();
-
-        if (convertResult.Files && convertResult.Files.length > 0) {
-          const downloadLink = convertResult.Files[0].Url;
-          status.innerHTML = `<a href="${downloadLink}" target="_blank" style="color:green;">Download Word File</a>`;
-        } else {
-          status.textContent = "Conversion failed.";
-        }
-
-      } else {
+      if (!uploadResult.FileId) {
         status.textContent = "Upload failed.";
+        return;
+      }
+
+      // Now convert the uploaded file to Word using POST with JSON body
+      const convertResponse = await fetch("https://v2.convertapi.com/convert/pdf/to/docx?Secret=your_api_key_here", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          Parameters: [
+            {
+              Name: "FileId",
+              Value: uploadResult.FileId
+            }
+          ]
+        })
+      });
+
+      const convertResult = await convertResponse.json();
+
+      if (convertResult.Files && convertResult.Files.length > 0) {
+        const downloadLink = convertResult.Files[0].Url;
+        status.innerHTML = `<a href="${downloadLink}" target="_blank" style="color:green;">Download Word File</a>`;
+      } else {
+        status.textContent = "Conversion failed.";
       }
 
     } catch (error) {
